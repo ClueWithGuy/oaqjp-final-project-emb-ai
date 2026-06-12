@@ -1,11 +1,24 @@
-from flask import Flask, request, url_for, render_template
+"""
+Flask server for Emotion Detection application.
+"""
+
+from flask import Flask, request, render_template
 from EmotionDetection import emotion_detector
 
-app = Flask("Emotion Detector")
+app = Flask(__name__)
+
 
 @app.route("/emotionDetector")
 def em_detector():
+    """
+    Handles emotion detection request and returns formatted response.
+    """
     text_to_analyse = request.args.get("textToAnalyze")
+
+    # handle blank input
+    if not text_to_analyse:
+        return "Invalid input. Please try again", 400
+
     response = emotion_detector(text_to_analyse)
 
     return (
@@ -18,10 +31,14 @@ def em_detector():
         f"The dominant emotion is {response['dominant_emotion']}."
     )
 
+
 @app.route("/")
 def render_index_page():
-    return render_template('index.html')
+    """
+    Renders the main UI page.
+    """
+    return render_template("index.html")
 
-if __name__ ==  "__main__":
+
+if __name__ == "__main__":
     app.run(port=5000)
-
