@@ -29,3 +29,4 @@ def emotion_detector(text_to_analyze):
         **result,
         'dominant_emotion' : dominant
     }
+    
